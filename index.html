@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>
+            Currency Converter
+        </title>
+        <style>
+            *{
+                font-size: 50px;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }
+            body{
+                background-color:#FF8000;
+            }
+            h1{
+                background-color: black;color: white; border-radius: 10px; width: 50%;
+            }
+            #subbtn{
+                background-color: black;color: white; border-radius: 10px; width: 20%;
+            }
+        </style>
+        <script>
+            function convert()
+            {
+                event.preventDefault();
+                let amt = document.getElementById("amt");
+                let ans = document.getElementById("ans");
+                if(amt.value == "")
+                {
+                    alert("input is empty");
+                    ans.innerHTML = "";
+                    amt.focus();
+                    return;
+                }
+                let aid = parseFloat(amt.value);
+                let url = "https://api.exchangerate-api.com/v4/latest/USD";
+                let dollar = 0.0;
+                fetch(url)
+                .then(res => res.json())
+                .then(
+                    data =>{
+                        dollar = data.rates.INR;
+                        let air = aid * 82.60;
+                        let msg = "\u20B9" + air.toFixed(2);
+                        ans.innerHTML = msg;
+                    }
+                )
+                .catch(err => {ans.innerHTML = "issue" + err;});
+            }
+        </script>
+    </head>
+    <body>
+        <center>
+            <h1> Currency Converter</h1>
+            <form onsubmit="convert()">
+                <input type="text" placeholder="Enter the amount" id="amt"> <br><br>
+                <input type="submit"  id="subbtn">
+            </form>
+            <h2 id="ans"></h2>
+        </center>
+    </body>
+</html>
